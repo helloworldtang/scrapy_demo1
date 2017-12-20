@@ -8,4 +8,5 @@
 
 class ScrapyDemo1Pipeline(object):
     def process_item(self, item, spider):
+        print("item:",item["urlTitle"])
         return item
