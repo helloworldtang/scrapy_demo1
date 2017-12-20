@@ -11,5 +11,5 @@ class ScrapyDemo1Pipeline(object):
         super().__init__()
 
     def process_item(self, item, spider):
-        print("item:", item["urlTitle"])
+        print("item:", item)
         return item
