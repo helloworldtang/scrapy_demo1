@@ -14,5 +14,5 @@ class SpiderLagouSpider(scrapy.Spider):
         lagouItem["urlTitle"] = response.xpath("/html/head/title/text()")
         print("lagouItem:", lagouItem)
         yield {
-            'urlTitle': response.xpath("/html/head/title/text()")
+            'urlTitle': response.xpath("/html/head/title/text()").extract_first()
         }
