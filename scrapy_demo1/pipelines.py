@@ -5,14 +5,31 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import pymongo
-
+import pymysql
 
 class ScrapyDemo1Pipeline(object):
     def __init__(self) -> None:
         super().__init__()
 
+        self.conn = pymysql.connect(host='localhost',
+                                    user='root',
+                                    password='',
+                                    db='python-local-test',
+                                    charset='utf8mb4',
+                                    cursorclass=pymysql.cursors.DictCursor)
+
+
     def process_item(self, item, spider):
         print("item:", item)
+        with self.conn.cursor() as cursor:
+            print("begin persist")
+            # Create a new record
+            sql = "insert into pipeline_mysql(title,meta) values(%s,%s)"
+            cursor.execute(sql, (item['urlTitle'], item['urlMeta']))
+
+            # connection is not autocommit by default. So you must commit to save
+            # your changes.
+        self.conn.commit()
         return item
 
 
